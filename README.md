@@ -1,91 +1,256 @@
-# 🧑‍⚖️ **Legal Document Understanding AI Assistant — Overview**
 
-The **Legal Powered AI Assistant** is an intelligent system designed to understand complex legal documents and provide **structured, situation-specific insights** to users. The goal of this project is to help individuals—especially victims facing legal issues—receive clear, actionable guidance derived from relevant legal sections and documents.
 
-This system combines **LLM reasoning**, **RAG (Retrieval-Augmented Generation)**, and **advanced prompt engineering** to deliver accurate and transparent outputs.
+# 🧑‍⚖️ Legal Document Understanding AI Assistant (RAG-Based)
+
+## 📌 Overview
+
+The **Legal Document Understanding AI Assistant** is an intelligent, retrieval-augmented system designed to **analyze legal situations described by users** and provide **clear, structured, and context-aware legal insights**.
+
+This project is built to help individuals—especially **victims and non-legal professionals**—understand complex legal documents by mapping real-world situations to **relevant legal sections and punishments** using **LLMs + RAG**.
+
+The system leverages:
+
+* **FAISS Vector Search**
+* **Ollama-powered LLMs**
+* **Advanced Prompt Engineering**
+* **Streamlit UI**
 
 ---
 
-## ⚙️ **Key Features**
+## ✨ Key Features
 
-### 🔍 1. **Legal Document Understanding**
+### 🔍 1. Legal Document Understanding
 
-The model is fine-tuned and prompted to read, interpret, and summarize legal clauses, including:
+* Interprets complex legal sections
+* Identifies applicable laws for a given situation
+* Explains **why** a section applies
+* Clearly states **punishments and legal consequences**
 
-* Rights of the victim
-* Sections applicable to the situation
-* Possible legal actions
-* Penalties and responsibilities
+---
 
-### 📚 2. **Section-Based Chunking & Vector Storage**
+### 📚 2. Section-Based Chunking & Vector Storage
 
-You implemented an **effective section-based chunking strategy**, where:
+* Legal documents are split into **meaningful sections**
+* Each section is embedded and stored in a **FAISS vector database**
+* This improves **retrieval accuracy** and avoids irrelevant context
 
-* Each legal document is divided into meaningful sections.
-* These chunks are stored in a **FAISS vector database** using embeddings.
-* This ensures **high-accuracy retrieval** during query time.
+---
 
-This method avoids irrelevant retrieval and increases the precision of legal recommendations.
+### 🧠 3. Retrieval-Augmented Generation (RAG)
 
-### 🧠 3. **RAG Pipeline for Legal Insights**
+When a user submits a query:
 
-When a user describes their situation:
+1. Relevant legal sections are retrieved from FAISS
+2. Retrieved sections are injected into the LLM prompt
+3. The model generates **grounded and explainable outputs**
 
-1. The system retrieves the most relevant legal sections.
-2. The LLM analyzes each retrieved document.
-3. It produces a **structured response** with clear legal reasoning.
+---
 
-### 🧪 4. **Advanced Prompt Engineering (Meta Prompting + One-Shot)**
+### 🧪 4. Advanced Prompt Engineering
 
-You experimented with different prompting strategies and found that a combination of:
+The system uses:
 
-* **Meta prompting** → guiding the model’s style and structure
-* **One-shot prompting** → providing a single high-quality example
+* **Meta prompting** → controls tone, structure, and role
+* **One-shot prompting** → ensures consistent legal-style responses
 
-…resulted in **highly consistent and structured legal outputs**.
+This results in **highly structured and reliable legal answers**.
 
-### 🧾 5. **Structured Output Format**
+---
 
-The system outputs results in a clean JSON-like structure, including:
+### 🧾 5. Structured Output
+
+The AI produces:
 
 * Applicable legal sections
 * Explanation for each section
-* Suggested next steps
-* References to the retrieved documents
+* Punishment details
+* Contextual justification
 
-This makes it easy to integrate with dashboards, chat interfaces, or legal advisory tools.
+This makes the system suitable for:
+
+* Legal dashboards
+* Advisory tools
+* AI-powered assistants
 
 ---
 
-## 🏗️ **Architecture Overview**
+## 🏗️ Architecture Overview
+
+```text
+User Query
+   ↓
+Situation Analysis
+   ↓
+FAISS Vector Search
+   ↓
+Relevant Legal Sections Retrieved
+   ↓
+LLM Reasoning (Meta + One-Shot Prompting)
+   ↓
+Structured Legal Output
+```
+
+---
+
+## 🗂️ Project Structure
+
+```text
+law-rag-assistant/
+│
+├── app.py                         # Streamlit application
+├── requirements.txt               # Dependencies
+├── bns.json                       # BNS legal sections
+├── bns_to_ipc.json                # BNS → IPC mapping
+├── bns_vector_db_up_oct11/        # FAISS vector database
+│   ├── index.faiss
+│   └── index.pkl
+└── README.md
+```
+
+---
+
+## ⚙️ How to Run the Project (Step-by-Step)
+
+### ✅ 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd law-rag-assistant
+```
+
+---
+
+### ✅ 2. Create & Activate Virtual Environment
+
+#### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+#### macOS / Linux
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+### ✅ 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+> If FAISS fails on Windows:
+
+```bash
+pip install faiss-cpu --no-cache-dir
+```
+
+---
+
+### ✅ 4. Install Ollama (Required)
+
+Ollama is used to run local LLMs and embeddings.
+
+🔗 Download: [https://ollama.com/download](https://ollama.com/download)
+
+After installation, pull required models:
+
+```bash
+ollama pull nomic-embed-text
+ollama pull deepseek-r1:1.5b
+```
+
+Start the Ollama server:
+
+```bash
+ollama serve
+```
+
+Ollama must be running at:
 
 ```
-User Query → Situation Analysis → Vector Search (FAISS)
-→ Retrieve Relevant Legal Sections → LLM Reasoning (Meta + One Shot Prompting)
-→ Structured Legal Output
+http://localhost:11434
 ```
 
 ---
 
-## 🎯 **Problem This Solves**
+### ✅ 5. Run the Streamlit App
 
-Legal documents are complex and inaccessible to most people.
-This project solves that by:
+```bash
+streamlit run app.py
+```
 
-* Simplifying legal language
-* Providing instant legal insights
-* Helping victims understand their rights
-* Making legal information accessible without professional legal knowledge
+You will see:
 
----
+```text
+Local URL: http://localhost:8501
+```
 
-## 🚀 **Why This Project Stands Out**
-
-* You built a **complete legal-aware AI pipeline** from ingestion → retrieval → reasoning.
-* You applied **advanced LLM prompting strategies** after experimentation.
-* You implemented **professional-grade chunking and RAG techniques**.
-* The final output is **structured, reliable, and reproducible** — ideal for real-world applications.
+Open it in your browser 🎉
 
 ---
 
+## 🧪 How the App Works (User Flow)
+
+1. User enters a **legal situation** in plain language
+2. System retrieves **relevant legal sections** from FAISS
+3. LLM analyzes retrieved sections
+4. AI generates:
+
+   * Applicable sections
+   * Explanation
+   * Punishment details
+5. Output is displayed in a clean, readable format
+
+---
+
+## 🎯 Problem This Solves
+
+* Legal documents are complex and inaccessible
+* Victims often don’t know which laws apply
+* Legal consultation is expensive and slow
+
+✅ This system:
+
+* Simplifies legal language
+* Provides instant insights
+* Improves legal awareness
+* Makes legal knowledge accessible
+
+---
+
+## 🚀 Why This Project Stands Out
+
+* Complete **end-to-end RAG pipeline**
+* Professional **section-based chunking**
+* Advanced **prompt engineering experimentation**
+* Real-world legal applicability
+* Fully local & privacy-preserving (Ollama)
+
+---
+
+## ⚠️ Disclaimer
+
+This project is for **educational and informational purposes only**.
+It does **not replace professional legal advice**.
+
+---
+
+## 📌 Future Enhancements
+
+* Multi-language legal support
+* Court-case citation retrieval
+* PDF upload & document parsing
+* User feedback loop
+* Cloud deployment
+
+---
 https://github.com/user-attachments/assets/cecd2b30-94e8-4556-ac82-660f3d1d055e
+
+
+

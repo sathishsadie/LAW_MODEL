@@ -114,7 +114,7 @@ law-rag-assistant/
 ### ✅ 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/sathishsadie/LAW_MODEL.git
 cd law-rag-assistant
 ```
 
